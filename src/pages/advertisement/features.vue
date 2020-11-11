@@ -1,7 +1,7 @@
 <template>
-  <!-- 背景图 -->
+  <!-- 馆舍风貌 -->
   <div class="notice">
-    <Index :type="1">   </Index>
+    <Index :type="11">   </Index>
   </div>
 </template>
 

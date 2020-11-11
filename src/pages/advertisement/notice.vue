@@ -1,7 +1,7 @@
 <template>
-  <!-- 背景图 -->
+  <!-- 通知公告 -->
   <div class="notice">
-    <Index :type="1">   </Index>
+    <Index :type="4">   </Index>
   </div>
 </template>
 

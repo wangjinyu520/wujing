@@ -12,6 +12,7 @@
         :on-error="handleSuccess"
         :on-success="handleSuccess"
         v-loading="loading"
+        :headers="headers"
         accept=".jpg, .jpeg, .png, .jpg, .jpeg"
       >
         <img
@@ -39,6 +40,7 @@
         :show-file-list="false"
         :limit="mode_2.limit"
         :file-list="mode_2.fileList"
+        :headers="headers"
       >
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
@@ -54,6 +56,7 @@
         :on-error="handleSuccess"
         :on-success="handleSuccess"
         v-loading="loading"
+        :headers="headers"
         :limit="1"
       >
         <el-button size="small" type="primary">点击上传</el-button>
@@ -71,6 +74,7 @@
         :on-success="handleSuccess"
         multiple
         v-loading="loading"
+        :headers="headers"
       >
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
@@ -93,6 +97,7 @@
           :file-list="mode_5.fileList"
           list-type="picture-card"
           v-loading="loading"
+          :headers="headers"
         >
           <i class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -138,7 +143,10 @@ export default {
       uploadNumber: 0,
       //已上传完成文件个数
       alreadyNumber: 0,
-      showImageUrl: ""
+      showImageUrl: "",
+       headers: {
+        token: this.$store.state.token,
+      },
     };
   },
   props: {
@@ -230,7 +238,6 @@ export default {
       this.loading = true;
     },
     handleSuccess(res, file) {
-      console.log(file);
       this.loading = false;
       if (res && res.code === 0) {
         this.handleMode(res.result, file);

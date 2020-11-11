@@ -1,7 +1,7 @@
 <template>
-  <!-- 背景图 -->
+  <!-- 开放时间 -->
   <div class="notice">
-    <Index :type="1">   </Index>
+    <Index :type="10">   </Index>
   </div>
 </template>
 

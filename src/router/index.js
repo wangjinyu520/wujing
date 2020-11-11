@@ -161,46 +161,8 @@ let Routes = [
     //     ]
     // },
 
-    // {
-    //     path: '/order',
-    //     name: '订单管理',
-    //     redirect: '/order/order',
-    //     hidden: true,
-    //     meta: {
-    //         code: 'order:index',
-    //         image: 'order.png'
-    //     },
-    //     children: [{
-    //         path: 'order',
-    //         name: '订单管理',
-    //         hidden: true,
-    //         meta: {
-    //             code: 'order:index',
-    //         },
-    //         component: () =>
-    //             import ('@/pages/order/order'),
-    //     }]
-    // },
-    // {
-    //     path: '/finance',
-    //     name: '财务结算',
-    //     redirect: '/finance/balance',
-    //     hidden: true,
-    //     meta: {
-    //         code: 'wallet:index',
-    //         image: 'finance.png'
-    //     },
-    //     children: [{
-    //         path: 'balance',
-    //         name: '财务结算',
-    //         hidden: true,
-    //         meta: {
-    //             code: 'wallet:index',
-    //         },
-    //         component: () =>
-    //             import ('@/pages/finance/balance'),
-    //     }]
-    // },
+   
+  
 
     {
         path: '/advertisement',
@@ -213,7 +175,7 @@ let Routes = [
         },
         children: [{
             path: 'adver',
-            name: '广告管理',
+            name: '背景图管理',
             hidden: false,
             meta: {
                 code: 'advertisement:index',
@@ -223,7 +185,7 @@ let Routes = [
         },
         {
             path: 'bgAdmin',
-            name: '背景图管理',
+            name: '读书照管理',
             hidden: false,
             meta: {
                 // code: 'advertisement:index',
@@ -231,17 +193,7 @@ let Routes = [
             component: () =>
                 import('@/pages/advertisement/index2'),
         },
-            // {
-            //     path: 'index/info',
-            //     name: '详情',
-            //     hidden: true,
-            //     meta: {
-            //         alwaysHidden: true,
-            //         code: 'advertisement:index',
-            //     },
-            //     component: () =>
-            //         import ('@/pages/advertisement/info'),
-            // }
+           
         ]
     },
     // message文件下面
@@ -260,10 +212,10 @@ let Routes = [
                 name: '焦点新闻',
                 hidden: false,
                 meta: {
-                    code: 'messa ge:index',
+                    code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index1'),
+                    import('@/pages/advertisement/news'),
             },
             {
                 path: 'notice',
@@ -273,7 +225,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/notice'),
             },
             {
                 path: 'activity',
@@ -283,7 +235,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/activity'),
             },
 
         ]
@@ -307,7 +259,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index1'),
+                    import('@/pages/advertisement/guideReader'),
             },
             {
                 path: 'rules',
@@ -317,7 +269,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/rules'),
             },
             {
                 path: 'recommend',
@@ -327,7 +279,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/index1'),
             },
             {
                 path: 'guideBook',
@@ -354,6 +306,16 @@ let Routes = [
         },
         children: [
             {
+                path: 'orginSet',
+                name: '机构设置',
+                hidden: false,
+                meta: {
+                    code: 'message:index',
+                },
+                component: () =>
+                    import('@/pages/advertisement/orginSet'),
+            },
+            {
                 path: 'time',
                 name: '开放时间',
                 hidden: false,
@@ -361,7 +323,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index1'),
+                    import('@/pages/advertisement/time'),
             },
             {
                 path: 'features',
@@ -371,7 +333,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/features'),
             },
             {
                 path: 'special',
@@ -381,7 +343,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/special'),
             },
             {
                 path: 'history',
@@ -391,7 +353,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index2'),
+                    import('@/pages/advertisement/history'),
             },
 
         ]

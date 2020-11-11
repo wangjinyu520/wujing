@@ -13,7 +13,7 @@ instance.defaults.transformRequest = [function(data) {
         if (!data) {
             data = {}
         }
-        data.merchantId = store.state.merchantId
+        // data.merchantId = store.state.merchantId
         let ret = ''
         let ignores = ['createTimeStr', 'createDateStr', 'updateTimeStr', 'updateDateStr', 'creatorStr', 'updaterStr', 'children']
         for (const it in data) {
@@ -31,8 +31,8 @@ instance.defaults.transformRequest = [function(data) {
     // 添加请求拦截器
 instance.interceptors.request.use(
     function(config) {
+        console.log(store.state.token)
         config.headers.token = store.state.token || ''
-        config.headers.guardId = store.state.userInfo.guardId || ''
         if (store.state.isBtnLoading) {
             store.commit('Change_isBtnLoading', false)
             store.commit('Change_btnLoading', true)
@@ -54,9 +54,9 @@ instance.interceptors.response.use(
     function(response) {
         // 对响应数据做点什么
         store.commit('Change_init')
-        if (response.data.code == 200) {
+        if (response.data.code == 0) {
             return response.data;
-        } else if (response.data.code == 501) {
+        } else if (response.data.code == 999) {
             removeCookie('jh-token')
             if (Vue.$route.fullPath.indexOf('login') > -1) return
             Router.replace({

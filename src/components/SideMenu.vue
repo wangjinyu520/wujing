@@ -270,15 +270,15 @@ export default {
       this.$store.commit('ROUTERTREE', [])
       let routes = JSON.parse(JSON.stringify(this.$router.options.routes))
         this.$store.commit('ROUTERTREE', routes)
-      getMyMenu().then(res => {
-        this.list = res.result    
-        //过滤菜单显示不显示
-        // this.resetHidden(routes)
-        // this.setParentHasChild(routes)
-        // this.$store.commit('ROUTERTREE', routes)
-        //判断当前路由是否有权限
-        // this.checkRoute()
-      })
+        // getMyMenu().then(res => {
+        //   this.list = res.result    
+        //   //过滤菜单显示不显示
+        //   // this.resetHidden(routes)
+        //   // this.setParentHasChild(routes)
+        //   // this.$store.commit('ROUTERTREE', routes)
+        //   //判断当前路由是否有权限
+        //   // this.checkRoute()
+        // })
     },
     checkCodeTrue(str) {
       let bol = false

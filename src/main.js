@@ -13,8 +13,6 @@ import "./static/css/index.css"; //全局样式
 Vue.use(ElementUI)
 import "@/util/index.js" //放置一些定义在Vue原型上的属性
 
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false;
 
@@ -38,8 +36,7 @@ Vue.component('DatePicker', () =>
     import ('@/components/DatePicker.vue'))
 Vue.component('Cascader', () =>
     import ('@/components/Cascader.vue'))
-Vue.component('DepartmentSelect', () =>
-    import ('@/components/DepartmentSelect.vue'))
+
 
 Vue.prototype.$validate = function(ref) {
     return new Promise((resolve, reject) => {

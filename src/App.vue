@@ -23,7 +23,7 @@ export default {
   },
   created() {
     if (this.$store.state.token) {
-      // this.$store.dispatch("Get_Department");
+
     }
   },
   provide() {

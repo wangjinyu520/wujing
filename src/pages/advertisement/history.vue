@@ -1,7 +1,7 @@
 <template>
-  <!-- 背景图 -->
+  <!-- 历史沿革 -->
   <div class="notice">
-    <Index :type="1">   </Index>
+    <Index :type="12">   </Index>
   </div>
 </template>
 

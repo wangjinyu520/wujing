@@ -80,7 +80,6 @@ export default {
       let xhr = new XMLHttpRequest();
       xhr.open("post", url, true);
 
-      xhr.setRequestHeader("guardId", this.$store.state.userInfo.guardId || "");
       xhr.setRequestHeader("token", this.$store.state.token);
       xhr.addEventListener("readystatechange", function () {
         let result = xhr;

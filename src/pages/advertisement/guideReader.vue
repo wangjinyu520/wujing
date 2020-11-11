@@ -1,7 +1,7 @@
 <template>
-  <!-- 背景图 -->
+  <!-- 读书指南 -->
   <div class="notice">
-    <Index :type="1">   </Index>
+    <Index :type="6">   </Index>
   </div>
 </template>
 

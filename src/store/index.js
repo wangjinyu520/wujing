@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { setCookie, getCookie, removeCookie } from '@/js-cookie'
-import { departmentQuery, customDepartmentQuery } from '@/axios/department'
 
 Vue.use(Vuex)
 
@@ -132,15 +131,7 @@ export default new Vuex.Store({
 
     },
     actions: {
-        //查询部门
-        Get_Department({ commit }) {
-            departmentQuery().then(res => {
-                commit('Set_DepartmentList', res.result)
-            })
-            customDepartmentQuery().then(res => {
-                commit('Set_CustomDepartmentList', res.result)
-            })
-        },
+        
         
     }
 })

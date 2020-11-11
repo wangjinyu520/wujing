@@ -3,7 +3,7 @@
   <div class="notice">
     <operation :mode="4">
       <template slot="btns">
-        <el-button v-if="handler.create&&type==1" type="primary" @click="addHandler()">新增</el-button>
+        <el-button  type="primary" @click="addHandler()">新增</el-button>
       </template>
       <template slot="search">
         <li>
@@ -28,17 +28,6 @@
               <img style="width: 150px;" :src="scope.row.image" alt />
             </template>
           </el-table-column>
-          <!-- <el-table-column prop="status" label="状态" width="90" v-if="type==2">
-            <template slot-scope="scope">
-              <el-switch
-                :disabled="!handler.freeze"
-                v-model="scope.row.status"
-                :active-value="1"
-                :inactive-value="0"
-                @change="statusChange(scope.row)"
-              ></el-switch>
-            </template>
-          </el-table-column> -->
           <el-table-column prop label="操作" width="220">    
             <template slot-scope="scope">
               <el-button type="primary" @click="updateHandler(scope.row)">编辑</el-button>
@@ -56,7 +45,7 @@
         />
       </LoadingBox>
     </div>
-      <Dialog ref="dialog" :type="formType" title="轮播图" width="900px">
+      <Dialog ref="dialog" :type="formType"  width="900px">
       <div class="dialog-common" slot="main">
         <el-form
           ref="form"
@@ -67,21 +56,25 @@
           label-width="80px"
           size="medium"
         >
-          <el-form-item label="编号" prop="identifier">
-            <el-input v-model="form.identifier" size="medium" type="number" />
-            <div style="font-size:12px;color:#fc9a23">* 编号越小越靠前</div>
+          <el-form-item label="序号" prop="sequence">
+            <el-input v-model="form.sequence" size="medium" type="number" />
+            <div style="font-size:12px;color:#fc9a23">* 序号越小越靠前</div>
           </el-form-item>
           <el-form-item label="标题" prop="title">
             <el-input v-model="form.title" size="medium" />
           </el-form-item>
-          <el-form-item label="图片">
+           
+          <el-form-item label="图片" prop="image" v-if="type==1||type==2">
             <Upload :defaultImage.sync="form.image" />
           </el-form-item>
           <!-- <el-form-item label="备注">
             <el-input v-model="form.remark" type="textarea" resize="none" :rows="4"></el-input>
           </el-form-item>-->
-          <el-form-item label="详情：" prop="content">
-            <Editor v-model="form.content" style="width: 700px;padding-top: 8px;" />
+           <el-form-item label="概述" >
+            <el-input v-model="form.viceTitle" size="medium" />
+          </el-form-item>
+          <el-form-item label="详情：" prop="description" v-if="type!==1&&type!==2">
+            <Editor v-model="form.description" style="width: 700px;padding-top: 8px;" />
           </el-form-item>
         </el-form>
       </div>
@@ -103,23 +96,15 @@ import {
   advertisementUpdate,
   advertisementDelete,
   advertisementFreeze,  
+  advertisementGet
 } from "@/axios/advertisement";
 import Editor from "@/components/Editor";
-// import { categoryPageQuery, productPageQuery } from '@/axios/goods'
-// import GoodsSelect from './GoodsSelect'
 
-const defaultForm = {
-  id: 0,
-  title: "",
-  image: "",
-  type: 2,
-  type: "",
-  param: "",
-  description: ""
-};
+
+
 export default {
   components: {
-    // GoodsSelect,
+
     Editor
   },
   props: ["type"],
@@ -138,30 +123,26 @@ export default {
       list: [],
       rules: {
         title: [{ required: true, message: "标题不能未空", trigger: "blur" }],
-        identifier: [
-          { required: true, message: "编号不能为空", trigger: "blur" },
+        sequence: [
+          { required: true, message: "序号不能为空", trigger: "blur" },
         ],
         image: [{ required: true, message: "请选择", trigger: "blur" }],
       },
       dialogVisible: false,
     };
   },
-
+  //  filters(){
+  //    formType(val){
+  //     if(type)
+  //    }
+  //  },
   activated() {
+    this.listQuery.type=this.type
     this.getList();
   },
   methods: {
-    statusChange(row, type) {
-      advertisementFreeze({ id: row.id })
-        .then(() => {})
-        .catch(() => {
-          if (row.status == 1) {
-            row.status = 0;
-          } else {
-            row.status = 1;
-          }
-        });
-    },
+  
+   
     getList() {
       advertisementPageQuery(this.listQuery).then(res => {
         this.list = res.result.list;
@@ -189,23 +170,25 @@ export default {
     //
     confirm() {
       this.$validate("form").then(() => {
+        console.log(this.type);
          const params = {
         id: this.form.id,
         title: this.form.title,
-        identifier: this.form.identifier || 0,
+        sequence: this.form.sequence,
         image: this.form.image,
-        content: this.form.content,
-        type: 2,
+        description: this.form.description,
+        type: this.type,
+        viceTitle:this.form.viceTitle
         };
-        this.form.param = JSON.stringify(param);
+        
         if (!this.form.id) {
-          advertisementCreate(this.form).then(res => {
+          advertisementCreate(params).then(res => {
             this.getList();
             this.Notify("添加成功！");
             this.$refs["dialog"].close();
           });
         } else {
-          advertisementUpdate(this.form).then(res => {
+          advertisementUpdate(params).then(res => {
             this.getList();
             this.Notify("更新成功！");
             this.$refs["dialog"].close();
