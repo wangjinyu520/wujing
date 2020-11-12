@@ -279,7 +279,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index1'),
+                    import('@/pages/books/index'),
             },
             {
                 path: 'guideBook',
@@ -376,7 +376,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/index1'),
+                    import('@/pages/advertisement/question'),
             },
            
 
