@@ -96,38 +96,9 @@ export default new Vuex.Store({
             setCookie('jh-approvalCode', value)
         },
         
-        Set_AutoApi(state, value) {
-            return
-            clearInterval(state.autoApi)
-            if(value) {
-                if(state.autoList.length > 0) {
-                    for(let val of state.autoList) {
-                        if(val != value) {
-                            state.autoList.push(value)
-                        }
-                    }
-                } else {
-                    state.autoList.push(value)
-                }
-                
-                state.autoApi = setInterval(() => {
-                    for(let val of state.autoList) {
-                        val()
-                    }
-                }, 10000)
-            } else {
-                state.autoList = []
-            }
-        },
+        
 
-        //设置部门
-        Set_DepartmentList(state, value) {
-            state.departmentList = value
-        },
-        //设置自定义部门
-        Set_CustomDepartmentList(state, value) {
-            state.customDepartmentList = value
-        }
+       
 
     },
     actions: {

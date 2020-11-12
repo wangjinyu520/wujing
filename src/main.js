@@ -30,12 +30,9 @@ Vue.component('Upload', () =>
     import ('@/components/Upload.vue'))
 Vue.component('Editor', () =>
     import ('@/components/Editor.vue'))
-Vue.component('NumInput', () =>
-    import ('@/components/NumInput.vue'))
 Vue.component('DatePicker', () =>
     import ('@/components/DatePicker.vue'))
-Vue.component('Cascader', () =>
-    import ('@/components/Cascader.vue'))
+
 
 
 Vue.prototype.$validate = function(ref) {
@@ -70,7 +67,6 @@ Vue.prototype.$cardValidator = function(rule, value, callback) {
     //路由守卫
 const passPath = ["/login"];
 router.beforeEach((to, from, next) => {
-    store.commit('Set_AutoApi')
     store.commit('Change_init', false)
     next()
     return

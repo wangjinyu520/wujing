@@ -7,9 +7,9 @@
       </template>
       <template slot="search">
         <li>
-          <span>标题：</span>
+          <span>书名：</span>
           <div>
-            <el-input v-model="listQuery.title"></el-input>
+            <el-input v-model="listQuery.name" clearable></el-input>
           </div>
         </li>
         <div>
@@ -22,25 +22,27 @@
       <LoadingBox>
         <el-table :data="list" stripe style="width: 100%">
           <el-table-column prop label="序号" type="index"></el-table-column>
-          <el-table-column prop="title" label="标题"></el-table-column>
           <el-table-column prop label="图片">
             <template slot-scope="scope">
               <img style="width: 150px" :src="scope.row.image" alt />
             </template>
           </el-table-column>
-          <el-table-column prop="viceTitle" label="概述"></el-table-column>
+          <el-table-column prop="name" label="书名"></el-table-column>
+          <el-table-column prop="identifier" label="索引号"></el-table-column>
+          <el-table-column prop="auth" label="作者"></el-table-column>
+          <el-table-column prop="year" label="年限"></el-table-column>
+          <el-table-column prop="area" label="籍贯"></el-table-column>
+          <el-table-column prop="org" label="出版社"></el-table-column>
+          <el-table-column prop="orgDate" label="出版日期"></el-table-column>
           <el-table-column prop="num" label="浏览量"></el-table-column>
-          <el-table-column
-            prop="createTimeStr"
-            label="发布时间"
-          ></el-table-column>
+          <el-table-column prop="createTimeStr" label="发布时间"></el-table-column>
           <el-table-column label="状态">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.status"
                 :active-value="1"
                 :inactive-value="0"
-                @change="statusChange(scope.row)"
+                @change="statusChange(scope.row.id)"
               ></el-switch>
             </template>
           </el-table-column>
@@ -85,9 +87,9 @@
           <el-form-item label="图片" prop="image">
             <Upload :defaultImage.sync="form.image" />
           </el-form-item>
-          <!-- <el-form-item label="索引号">
-            <el-input v-model="form.title" size="medium" />
-          </el-form-item> -->
+          <el-form-item label="索引号">
+            <el-input v-model="form.identifier" size="medium" />
+          </el-form-item>
           <el-form-item label="作者" prop="auth">
             <el-input v-model="form.auth" size="medium" />
           </el-form-item>
@@ -105,6 +107,7 @@
               v-model="form.orgDate"
               type="year"
               placeholder="选择年"
+              value-format="yyyy"
             >
             </el-date-picker>
           </el-form-item>
@@ -158,12 +161,13 @@ export default {
   data() {
     return {
       formType: "add",
-      form: {},
+      form: {
+        status:1
+      },
       listQuery: {
-        title: "",
+        name: "",
         pageNo: 1,
         pageSize: 20,
-        type: 2,
       },
       total: 0,
       list: [],
@@ -181,7 +185,7 @@ export default {
         status: [{ required: true, message: "不能为空", trigger: "blur" }],
         year: [{ required: true, message: "不能为空", trigger: "blur" }],
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
-
+        identifier: [{ required: true, message: "不能为空", trigger: "blur" }],
         image: [{ required: true, message: "请选择", trigger: "blur" }],
       },
       dialogVisible: false,
@@ -196,7 +200,10 @@ export default {
     this.getList();
   },
   methods: {
-    statusChange() {},
+    statusChange(id) {
+      bookFreeze({ id }).then((response) => {
+      });
+    },
     getList() {
       bookPageQuery(this.listQuery).then((res) => {
         this.list = res.result.list;
@@ -205,8 +212,9 @@ export default {
     },
     // operate
     addHandler() {
-      this.form = {};
+      this.form = {status:1};
       this.form.description = "";
+      // this.form.status=1
       this.$refs.dialog.open();
       this.formType = "add";
     },
@@ -224,24 +232,30 @@ export default {
     //
     confirm() {
       this.$validate("form").then(() => {
-        // const params = {
-        //   id: this.form.id,
-        //   title: this.form.title,
-        //   sequence: this.form.sequence,
-        //   image: this.form.image,
-        //   description: this.form.description,
-        //   type: this.type,
-        //   viceTitle: this.form.viceTitle,
-        // };
+        const params = {
+          id: this.form.id,
+          area: this.form.title,
+          auth: this.form.sequence,
+          image: this.form.image,
+          name: this.form.name,
+           org: this.form.org,
+            orgDate: this.form.orgDate,
+             sequence: this.form.sequence,
+             status: this.form.status,
+             year: this.form.year,
+             identifier: this.form.identifier,
+
+             
+        };
 
         if (!this.form.id) {
-          bookCreate(this.form).then((res) => {
+          bookCreate(params).then((res) => {
             this.getList();
             this.Notify("添加成功！");
             this.$refs["dialog"].close();
           });
         } else {
-          bookpUpdate(this.form).then((res) => {
+          bookpUpdate(params).then((res) => {
             this.getList();
             this.Notify("更新成功！");
             this.$refs["dialog"].close();
@@ -252,6 +266,8 @@ export default {
     // 弹出编辑框
     updateHandler(row) {
       this.form = Object.assign(row, {});
+       this.formType = "update";
+        this.$refs.dialog.open();
       //   this.getDetail(row.id);
     },
     getDetail(id) {

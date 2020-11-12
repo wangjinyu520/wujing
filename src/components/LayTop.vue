@@ -26,7 +26,7 @@
           </div>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="userInfo">个人中心</el-dropdown-item>
+          <!-- <el-dropdown-item command="userInfo">个人中心</el-dropdown-item> -->
           <el-dropdown-item command="logout">退 出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

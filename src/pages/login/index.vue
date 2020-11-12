@@ -6,8 +6,7 @@
       </div>
       <div class="right">
         <div class="input">
-          <!-- 武警士官 -->
-          <h5>后台管理系统</h5>
+           <h5>武警士官后台管理系统</h5>
           <div class="line"></div>
           <el-input class="username" v-model.trim="form.username" placeholder="账号"></el-input>
           <el-input

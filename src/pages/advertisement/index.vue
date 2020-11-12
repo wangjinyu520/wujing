@@ -9,7 +9,7 @@
         <li>
           <span>标题：</span>
           <div>
-            <el-input v-model="listQuery.title"></el-input>
+            <el-input v-model="listQuery.title" clearable></el-input>
           </div>
         </li>
         <div>
