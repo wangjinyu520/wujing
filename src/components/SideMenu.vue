@@ -1,7 +1,7 @@
 <template>
   <div class="side-menu">
     <div class="logo">
-      武警士官后台管理系统      
+      后台管理系统      
     </div>   
     <el-scrollbar>
       <el-menu class="el-menu-vertical-demo" :router="true" :default-active="activeRouter">

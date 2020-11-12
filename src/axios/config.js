@@ -31,7 +31,6 @@ instance.defaults.transformRequest = [function(data) {
     // 添加请求拦截器
 instance.interceptors.request.use(
     function(config) {
-        console.log(store.state.token)
         config.headers.token = store.state.token || ''
         if (store.state.isBtnLoading) {
             store.commit('Change_isBtnLoading', false)
@@ -57,6 +56,12 @@ instance.interceptors.response.use(
         if (response.data.code == 0) {
             return response.data;
         } else if (response.data.code == 999) {
+            removeCookie('jh-token')
+            if (Vue.$route.fullPath.indexOf('login') > -1) return
+            Router.replace({
+                path: '/login?url=' + Vue.$route.fullPath
+            })
+        } else if (response.data.code == 501) {
             removeCookie('jh-token')
             if (Vue.$route.fullPath.indexOf('login') > -1) return
             Router.replace({

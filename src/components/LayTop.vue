@@ -61,7 +61,8 @@
 
 <script>
 import { removeCookie } from '@/js-cookie'
-import { memberLoginOut, memberUpdate, getUserInfo } from '@/axios/member'
+import { memberLoginOut, getUserInfo } from '@/axios/member'
+// memberUpdate
 
 export default {
   data() {
@@ -183,13 +184,13 @@ export default {
     },
     confirm() {
       this.$validate('form').then(() => {
-        memberUpdate(this.form).then(() => {
-          this.Notify('更新成功！')
-          this.$refs.dialog.close()
-          getUserInfo().then(res => {
-            this.$store.commit('Set_UserInfo', res.result)
-          })
-        })
+        // memberUpdate(this.form).then(() => {
+        //   this.Notify('更新成功！')
+        //   this.$refs.dialog.close()
+        //   getUserInfo().then(res => {
+        //     this.$store.commit('Set_UserInfo', res.result)
+        //   })
+        // })
       })
     }
   }
