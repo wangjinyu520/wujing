@@ -197,6 +197,16 @@ let Routes = [
                 component: () =>
                     import('@/pages/advertisement/history'),
             },
+            {
+                path: 'regulation',
+                name: '规章制度',
+                hidden: false,
+                meta: {
+                    // code: 'advertisement:index',
+                },
+                component: () =>
+                    import('@/pages/advertisement/regulation'),
+            },
 
         ]
     },
