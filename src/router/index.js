@@ -19,26 +19,26 @@ let Routes = [
             image: 'order.png'
         },
         children: [{
-            path: 'adver',
-            name: '背景图管理',
-            hidden: false,
-            meta: {
-                code: 'advertisement:index',
+                path: 'adver',
+                name: '背景图管理',
+                hidden: false,
+                meta: {
+                    code: 'advertisement:index',
+                },
+                component: () =>
+                    import ('@/pages/advertisement/index1'),
             },
-            component: () =>
-                import('@/pages/advertisement/index1'),
-        },
-        {
-            path: 'bgAdmin',
-            name: '读书照管理',
-            hidden: false,
-            meta: {
-                // code: 'advertisement:index',
+            {
+                path: 'bgAdmin',
+                name: '读书照管理',
+                hidden: false,
+                meta: {
+                    // code: 'advertisement:index',
+                },
+                component: () =>
+                    import ('@/pages/advertisement/index2'),
             },
-            component: () =>
-                import('@/pages/advertisement/index2'),
-        },
-           
+
         ]
     },
     {
@@ -50,8 +50,7 @@ let Routes = [
             byChildren: true,
             image: 'order.png'
         },
-        children: [
-            {
+        children: [{
                 path: 'news',
                 name: '焦点新闻',
                 hidden: false,
@@ -59,7 +58,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/news'),
+                    import ('@/pages/advertisement/news'),
             },
             {
                 path: 'notice',
@@ -69,7 +68,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/notice'),
+                    import ('@/pages/advertisement/notice'),
             },
             {
                 path: 'activity',
@@ -79,7 +78,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/activity'),
+                    import ('@/pages/advertisement/activity'),
             },
 
         ]
@@ -93,8 +92,7 @@ let Routes = [
             byChildren: true,
             image: 'order.png'
         },
-        children: [
-            {
+        children: [{
                 path: 'guideReader',
                 name: '读者指南',
                 hidden: false,
@@ -102,7 +100,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/guideReader'),
+                    import ('@/pages/advertisement/guideReader'),
             },
             {
                 path: 'rules',
@@ -112,7 +110,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/rules'),
+                    import ('@/pages/advertisement/rules'),
             },
             {
                 path: 'recommend',
@@ -122,7 +120,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/books/index'),
+                    import ('@/pages/books/index'),
             },
             // {
             //     path: 'guideBook',
@@ -146,8 +144,7 @@ let Routes = [
             byChildren: true,
             image: 'order.png'
         },
-        children: [
-            {
+        children: [{
                 path: 'orginSet',
                 name: '机构设置',
                 hidden: false,
@@ -155,7 +152,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/orginSet'),
+                    import ('@/pages/advertisement/orginSet'),
             },
             {
                 path: 'time',
@@ -165,7 +162,7 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/time'),
+                    import ('@/pages/advertisement/time'),
             },
             {
                 path: 'features',
@@ -175,18 +172,18 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/features'),
+                    import ('@/pages/advertisement/features'),
             },
-            {
-                path: 'special',
-                name: '本馆特色',
-                hidden: false,
-                meta: {
-                    // code: 'advertisement:index',
-                },
-                component: () =>
-                    import('@/pages/advertisement/special'),
-            },
+            // {
+            //     path: 'special',
+            //     name: '本馆特色',
+            //     hidden: false,
+            //     meta: {
+            //         // code: 'advertisement:index',
+            //     },
+            //     component: () =>
+            //         import('@/pages/advertisement/special'),
+            // },
             {
                 path: 'history',
                 name: '历史沿革',
@@ -195,7 +192,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/history'),
+                    import ('@/pages/advertisement/history'),
             },
             {
                 path: 'regulation',
@@ -205,7 +202,7 @@ let Routes = [
                     // code: 'advertisement:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/regulation'),
+                    import ('@/pages/advertisement/regulation'),
             },
 
         ]
@@ -219,8 +216,7 @@ let Routes = [
             byChildren: true,
             image: 'order.png'
         },
-        children: [
-            {
+        children: [{
                 path: 'index',
                 name: '常见问题',
                 hidden: false,
@@ -228,9 +224,9 @@ let Routes = [
                     code: 'message:index',
                 },
                 component: () =>
-                    import('@/pages/advertisement/question'),
+                    import ('@/pages/advertisement/question'),
             },
-           
+
 
         ]
     },
@@ -251,9 +247,8 @@ let Routes = [
                 code: 'dictionary:index'
             },
             component: () =>
-                import('@/pages/dictionary/index'),
-        }
-    ]
+                import ('@/pages/dictionary/index'),
+        }]
     },
 
     // {
@@ -274,14 +269,14 @@ let Routes = [
             alwaysHidden: true
         },
         component: () =>
-            import('@/pages/login/index'),
+            import ('@/pages/login/index'),
     },
 
 ]
 
 //给一级路由统一增加相同的模板，显示菜单栏和顶部栏
 let Index = () =>
-    import('@/pages/Index/index')
+    import ('@/pages/Index/index')
 Routes = Routes.map(item => {
     if (!item.component) {
         item.component = Index
