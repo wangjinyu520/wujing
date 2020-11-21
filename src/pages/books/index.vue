@@ -21,7 +21,7 @@
     <div class="main-box">
       <LoadingBox>
         <el-table :data="list" stripe style="width: 100%">
-          <el-table-column prop label="序号" type="index"></el-table-column>
+          <el-table-column prop="sequence" label="序号"></el-table-column>
           <el-table-column prop label="图片">
             <template slot-scope="scope">
               <img style="width: 150px" :src="scope.row.image" alt />
@@ -35,7 +35,10 @@
           <el-table-column prop="org" label="出版社"></el-table-column>
           <el-table-column prop="orgDate" label="出版日期"></el-table-column>
           <el-table-column prop="num" label="浏览量"></el-table-column>
-          <el-table-column prop="createTimeStr" label="发布时间"></el-table-column>
+          <el-table-column
+            prop="createTimeStr"
+            label="发布时间"
+          ></el-table-column>
           <el-table-column label="状态">
             <template slot-scope="scope">
               <el-switch
@@ -78,7 +81,7 @@
         >
           <el-form-item label="序号" prop="sequence">
             <el-input v-model="form.sequence" size="medium" type="number" />
-            <div style="font-size: 12px; color: #fc9a23">* 序号越小越靠前</div>
+            <div style="font-size: 12px; color: #fc9a23">* 序号越大越靠前</div>
           </el-form-item>
 
           <el-form-item label="书名" prop="name">
@@ -148,13 +151,13 @@ import {
   bookPageQuery,
   bookDelete,
   bookFreeze,
-  bookGet,
+  bookGet
 } from "@/axios/book";
 import Editor from "@/components/Editor";
 
 export default {
   components: {
-    Editor,
+    Editor
   },
   props: ["type"],
   mixins: [form, handler],
@@ -162,19 +165,19 @@ export default {
     return {
       formType: "add",
       form: {
-        status:1
+        status: 1
       },
       listQuery: {
         name: "",
         pageNo: 1,
-        pageSize: 20,
+        pageSize: 20
       },
       total: 0,
       list: [],
       rules: {
         title: [{ required: true, message: "标题不能未空", trigger: "blur" }],
         sequence: [
-          { required: true, message: "序号不能为空", trigger: "blur" },
+          { required: true, message: "序号不能为空", trigger: "blur" }
         ],
         area: [{ required: true, message: "不能为空", trigger: "blur" }],
         auth: [{ required: true, message: "不能为空", trigger: "blur" }],
@@ -186,9 +189,9 @@ export default {
         year: [{ required: true, message: "不能为空", trigger: "blur" }],
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
         identifier: [{ required: true, message: "不能为空", trigger: "blur" }],
-        image: [{ required: true, message: "请选择", trigger: "blur" }],
+        image: [{ required: true, message: "请选择", trigger: "blur" }]
       },
-      dialogVisible: false,
+      dialogVisible: false
     };
   },
   //  filters(){
@@ -201,18 +204,17 @@ export default {
   },
   methods: {
     statusChange(id) {
-      bookFreeze({ id }).then((response) => {
-      });
+      bookFreeze({ id }).then(response => {});
     },
     getList() {
-      bookPageQuery(this.listQuery).then((res) => {
+      bookPageQuery(this.listQuery).then(res => {
         this.list = res.result.list;
         this.total = res.result.totalCount;
       });
     },
     // operate
     addHandler() {
-      this.form = {status:1};
+      this.form = { status: 1 };
       this.form.description = "";
       // this.form.status=1
       this.$refs.dialog.open();
@@ -222,7 +224,7 @@ export default {
     deleteHandler(index, row) {
       this.Confirm("是否继续删除？").then(() => {
         console.log("确定");
-        bookDelete({ id: row.id }).then((res) => {
+        bookDelete({ id: row.id }).then(res => {
           this.Notify("删除成功！");
           this.list.splice(index, 1);
           this.$refs.dialog.close();
@@ -238,24 +240,22 @@ export default {
           auth: this.form.sequence,
           image: this.form.image,
           name: this.form.name,
-           org: this.form.org,
-            orgDate: this.form.orgDate,
-             sequence: this.form.sequence,
-             status: this.form.status,
-             year: this.form.year,
-             identifier: this.form.identifier,
-
-             
+          org: this.form.org,
+          orgDate: this.form.orgDate,
+          sequence: this.form.sequence,
+          status: this.form.status,
+          year: this.form.year,
+          identifier: this.form.identifier
         };
 
         if (!this.form.id) {
-          bookCreate(params).then((res) => {
+          bookCreate(params).then(res => {
             this.getList();
             this.Notify("添加成功！");
             this.$refs["dialog"].close();
           });
         } else {
-          bookpUpdate(params).then((res) => {
+          bookpUpdate(params).then(res => {
             this.getList();
             this.Notify("更新成功！");
             this.$refs["dialog"].close();
@@ -266,22 +266,21 @@ export default {
     // 弹出编辑框
     updateHandler(row) {
       this.form = Object.assign(row, {});
-       this.formType = "update";
-        this.$refs.dialog.open();
+      this.formType = "update";
+      this.$refs.dialog.open();
       //   this.getDetail(row.id);
     },
     getDetail(id) {
-      bookGet({ id }).then((response) => {
+      bookGet({ id }).then(response => {
         this.form = response.result;
         // if (!this.form.description) this.form.description = "";
         this.form.description = response.result.description;
         this.formType = "update";
         this.$refs.dialog.open();
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

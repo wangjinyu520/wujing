@@ -21,16 +21,33 @@
     <div class="main-box">
       <LoadingBox>
         <el-table :data="list" stripe style="width: 100%">
-          <el-table-column prop label="序号" type="index"></el-table-column>
+          <el-table-column prop="sequence" label="序号"></el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column
+            prop="viceTitle"
+            label="链接"
+            v-if="type == 15"
+          ></el-table-column>
           <el-table-column prop label="图片" v-if="type == 1 || type == 2">
             <template slot-scope="scope">
               <img style="width: 150px" :src="scope.row.image" alt />
             </template>
           </el-table-column>
-          <el-table-column prop="viceTitle" label="概述"  v-if="type !== 1 && type !== 2"></el-table-column>
-          <el-table-column prop="num" label="浏览量"  v-if="type !== 1 && type !== 2"></el-table-column>
-          <el-table-column prop="createTimeStr" label="发布时间"  v-if="type !== 1 && type !== 2"></el-table-column>
+          <el-table-column
+            prop="viceTitle"
+            label="概述"
+            v-if="type !== 1 && type !== 2 && type !== 15"
+          ></el-table-column>
+          <el-table-column
+            prop="num"
+            label="浏览量"
+            v-if="type !== 1 && type !== 2 && type !== 15"
+          ></el-table-column>
+          <el-table-column
+            prop="createTimeStr"
+            label="发布时间"
+            v-if="type !== 1 && type !== 2 && type !== 15"
+          ></el-table-column>
           <el-table-column prop label="操作" width="220">
             <template slot-scope="scope">
               <el-button type="primary" @click="updateHandler(scope.row)"
@@ -63,7 +80,7 @@
         >
           <el-form-item label="序号" prop="sequence">
             <el-input v-model="form.sequence" size="medium" type="number" />
-            <div style="font-size: 12px; color: #fc9a23">* 序号越小越靠前</div>
+            <div style="font-size: 12px; color: #fc9a23">* 序号越大越靠前</div>
           </el-form-item>
           <el-form-item label="标题" prop="title">
             <el-input v-model="form.title" size="medium" />
@@ -75,12 +92,18 @@
           <!-- <el-form-item label="备注">
             <el-input v-model="form.remark" type="textarea" resize="none" :rows="4"></el-input>
           </el-form-item>-->
-          <el-form-item label="概述" v-if="type !== 1 && type !== 2">
+          <el-form-item label="链接" v-if="type == 15" prop="viceTitle">
+            <el-input v-model="form.viceTitle" size="medium" />
+          </el-form-item>
+          <el-form-item
+            label="概述"
+            v-if="type !== 1 && type !== 2 && type !== 15"
+          >
             <el-input v-model="form.viceTitle" size="medium" />
           </el-form-item>
           <el-form-item
             label="详情："
-            v-if="type !== 1 && type !== 2"
+            v-if="type !== 1 && type !== 2 && type !== 15"
           >
             <Editor
               v-model="form.description"
@@ -109,13 +132,13 @@ import {
   advertisementUpdate,
   advertisementDelete,
   advertisementFreeze,
-  advertisementGet,
+  advertisementGet
 } from "@/axios/advertisement";
 import Editor from "@/components/Editor";
 
 export default {
   components: {
-    Editor,
+    Editor
   },
   props: ["type"],
   mixins: [form, handler],
@@ -127,18 +150,19 @@ export default {
         title: "",
         pageNo: 1,
         pageSize: 20,
-        type: 2,
+        type: ""
       },
       total: 0,
       list: [],
       rules: {
         title: [{ required: true, message: "标题不能未空", trigger: "blur" }],
         sequence: [
-          { required: true, message: "序号不能为空", trigger: "blur" },
+          { required: true, message: "序号不能为空", trigger: "blur" }
         ],
-        image: [{ required: true, message: "请选择", trigger: "blur" }],
+        viceTitle: [{ required: true, message: "不能为空", trigger: "blur" }],
+        image: [{ required: true, message: "请选择", trigger: "blur" }]
       },
-      dialogVisible: false,
+      dialogVisible: false
     };
   },
   //  filters(){
@@ -152,7 +176,7 @@ export default {
   },
   methods: {
     getList() {
-      advertisementPageQuery(this.listQuery).then((res) => {
+      advertisementPageQuery(this.listQuery).then(res => {
         this.list = res.result.list;
         this.total = res.result.totalCount;
       });
@@ -168,7 +192,7 @@ export default {
     deleteHandler(index, row) {
       this.Confirm("是否继续删除？").then(() => {
         console.log("确定");
-        advertisementDelete({ id: row.id }).then((res) => {
+        advertisementDelete({ id: row.id }).then(res => {
           this.Notify("删除成功！");
           this.list.splice(index, 1);
           this.$refs.dialog.close();
@@ -185,17 +209,17 @@ export default {
           image: this.form.image,
           description: this.form.description,
           type: this.type,
-          viceTitle: this.form.viceTitle,
+          viceTitle: this.form.viceTitle
         };
 
         if (!this.form.id) {
-          advertisementCreate(params).then((res) => {
+          advertisementCreate(params).then(res => {
             this.getList();
             this.Notify("添加成功！");
             this.$refs["dialog"].close();
           });
         } else {
-          advertisementUpdate(params).then((res) => {
+          advertisementUpdate(params).then(res => {
             this.getList();
             this.Notify("更新成功！");
             this.$refs["dialog"].close();
@@ -208,17 +232,16 @@ export default {
       this.getDetail(row.id);
     },
     getDetail(id) {
-      advertisementGet({ id }).then((response) => {
+      advertisementGet({ id }).then(response => {
         this.form = response.result;
         // if (!this.form.description) this.form.description = "";
         this.form.description = response.result.description;
         this.formType = "update";
         this.$refs.dialog.open();
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
