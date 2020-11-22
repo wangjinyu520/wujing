@@ -85,7 +85,6 @@
           <el-form-item label="标题" prop="title">
             <el-input v-model="form.title" size="medium" />
           </el-form-item>
-
           <el-form-item label="图片" prop="image" v-if="type == 1 || type == 2">
             <Upload :defaultImage.sync="form.image" />
           </el-form-item>
@@ -100,6 +99,16 @@
             v-if="type !== 1 && type !== 2 && type !== 15"
           >
             <el-input v-model="form.viceTitle" size="medium" />
+          </el-form-item>
+          <el-form-item
+            label="附件"
+            v-if="type !== 1 && type !== 2 && type !== 15"
+          >
+            <Upload
+              @uploadSuccess="uploadSuccess"
+              mode="4"
+              :defaultFileMul="this.form.fileList"
+            />
           </el-form-item>
           <el-form-item
             label="详情："
@@ -150,7 +159,7 @@ export default {
         title: "",
         pageNo: 1,
         pageSize: 20,
-        type: ""
+        type: 2
       },
       total: 0,
       list: [],
@@ -171,6 +180,7 @@ export default {
   //    }
   //  },
   activated() {
+    console.log(this.type);
     this.listQuery.type = this.type;
     this.getList();
   },
@@ -185,6 +195,7 @@ export default {
     addHandler() {
       this.form = {};
       this.form.description = "";
+      this.form.fileList = [];
       this.$refs.dialog.open();
       this.formType = "add";
     },
@@ -209,7 +220,8 @@ export default {
           image: this.form.image,
           description: this.form.description,
           type: this.type,
-          viceTitle: this.form.viceTitle
+          viceTitle: this.form.viceTitle,
+          param: JSON.stringify(this.form.fileList)
         };
 
         if (!this.form.id) {
@@ -236,9 +248,21 @@ export default {
         this.form = response.result;
         // if (!this.form.description) this.form.description = "";
         this.form.description = response.result.description;
+        this.$set(this.form, "fileList", JSON.parse(response.result.param));
         this.formType = "update";
         this.$refs.dialog.open();
       });
+    },
+    uploadSuccess(res) {
+      console.log(res);
+      if (res) {
+        this.form.fileList = res.fileList.map(ele => {
+          return (ele = {
+            name: ele.name,
+            url: ele.url
+          });
+        });
+      }
     }
   }
 };

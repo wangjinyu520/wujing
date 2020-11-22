@@ -23,7 +23,9 @@
         />
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         <div class="el-upload__tip" slot="tip">{{ tip }}</div>
-        <div slot="tip" class="el-upload__tip" v-if="tip">图片大小不得超过2MB</div>
+        <div slot="tip" class="el-upload__tip" v-if="tip">
+          图片大小不得超过2MB
+        </div>
       </el-upload>
     </template>
     <!-- 单文件上传 -->
@@ -72,7 +74,7 @@
         :on-remove="handleRemove"
         :on-error="handleSuccess"
         :on-success="handleSuccess"
-        multiple
+        :file-list="mode_4.fileList"
         v-loading="loading"
         :headers="headers"
       >
@@ -144,9 +146,9 @@ export default {
       //已上传完成文件个数
       alreadyNumber: 0,
       showImageUrl: "",
-       headers: {
-        token: this.$store.state.token,
-      },
+      headers: {
+        token: this.$store.state.token
+      }
     };
   },
   props: {
@@ -164,6 +166,10 @@ export default {
     defaultFile: {
       default: "",
       type: String
+    },
+    defaultFileMul: {
+      default: () => [],
+      type: Array
     },
     importUrl: {
       default: "/common/oss/single",
@@ -205,6 +211,24 @@ export default {
           this.mode_2.fileList = [];
         }
       }
+    },
+    defaultFileMul: {
+      immediate: true,
+      handler(val) {
+        if (val && val.length) {
+          val.forEach((value, index) => {
+            let obj = {
+              name: value.name,
+              uid: index,
+              url: value.url
+            };
+            this.$set(this.mode_4.fileList, index, obj);
+          });
+          console.log(this.mode_4.fileList);
+        } else {
+          this.mode_4.fileList = [];
+        }
+      }
     }
   },
   created() {
@@ -215,7 +239,6 @@ export default {
   methods: {
     handlePreview(file) {
       window.open(file.url, "_blank");
-      console.log(file);
     },
     handleBefore(file, files) {
       if (this.size > 0) {
@@ -247,10 +270,12 @@ export default {
       // this.mode_1.imageUrl = URL.createObjectURL(file.raw);
     },
     handleRemove(file, files) {
-      console.log(file, files);
       if (this.mode == 4) {
         this.mode_4.fileList = this.mode_4.fileList.filter(item => {
           return item.uid != file.uid;
+        });
+        this.$emit("uploadSuccess", {
+          fileList: this.mode_4.fileList
         });
       } else if (this.mode == 5) {
         this.$emit("update:defaultImage", files);
@@ -282,13 +307,13 @@ export default {
         file.url = res;
         this.mode_4.fileList.push(file);
         this.alreadyNumber++;
-        this.$emit("uploadSuccess", {
-          uploadNumber: this.uploadNumber,
-          alreadyNumber: this.alreadyNumber
-        });
+
         if (this.alreadyNumber == this.uploadNumber) {
           this.uploadNumber = 0;
           this.alreadyNumber = 0;
+          this.$emit("uploadSuccess", {
+            fileList: this.mode_4.fileList
+          });
         }
         return;
       } else if (this.mode == 5) {
