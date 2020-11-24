@@ -237,7 +237,7 @@ export default {
         const params = {
           id: this.form.id,
           area: this.form.title,
-          auth: this.form.sequence,
+          auth: this.form.auth,
           image: this.form.image,
           name: this.form.name,
           org: this.form.org,
