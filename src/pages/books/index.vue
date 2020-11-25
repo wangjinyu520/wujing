@@ -30,8 +30,8 @@
           <el-table-column prop="name" label="书名"></el-table-column>
           <el-table-column prop="identifier" label="索引号"></el-table-column>
           <el-table-column prop="auth" label="作者"></el-table-column>
-          <el-table-column prop="year" label="年限"></el-table-column>
-          <el-table-column prop="area" label="籍贯"></el-table-column>
+          <!-- <el-table-column prop="year" label="年限"></el-table-column>
+          <el-table-column prop="area" label="籍贯"></el-table-column> -->
           <el-table-column prop="org" label="出版社"></el-table-column>
           <el-table-column prop="orgDate" label="出版日期"></el-table-column>
           <el-table-column prop="num" label="浏览量"></el-table-column>
@@ -84,28 +84,36 @@
             <div style="font-size: 12px; color: #fc9a23">* 序号越大越靠前</div>
           </el-form-item>
 
-          <el-form-item label="书名" prop="name">
+          <el-form-item label="书名">
+            <!-- prop="name" -->
             <el-input v-model="form.name" size="medium" />
           </el-form-item>
-          <el-form-item label="图片" prop="image">
+          <el-form-item label="图片">
+            <!-- prop="image" -->
             <Upload :defaultImage.sync="form.image" />
           </el-form-item>
           <el-form-item label="索引号">
             <el-input v-model="form.identifier" size="medium" />
           </el-form-item>
-          <el-form-item label="作者" prop="auth">
+          <el-form-item label="作者">
+            <!-- prop="auth" -->
             <el-input v-model="form.auth" size="medium" />
           </el-form-item>
-          <el-form-item label="年限" prop="year">
+          <!-- <el-form-item label="年限" prop="year">
             <el-input v-model="form.year" size="medium" />
           </el-form-item>
           <el-form-item label="籍贯" prop="area">
             <el-input v-model="form.area" size="medium" />
-          </el-form-item>
-          <el-form-item label="出版社" prop="org">
+          </el-form-item> -->
+          <el-form-item label="出版社">
+            <!-- prop="org" -->
             <el-input v-model="form.org" size="medium" />
           </el-form-item>
-          <el-form-item label="出版日期" prop="orgDate">
+          <el-form-item label="链接">
+            <el-input v-model="form.param" size="medium" />
+          </el-form-item>
+          <el-form-item label="出版日期">
+            <!-- prop="orgDate" -->
             <el-date-picker
               v-model="form.orgDate"
               type="year"
@@ -114,7 +122,8 @@
             >
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="状态：" prop="status">
+
+          <el-form-item label="状态：">
             <el-radio-group v-model="form.status">
               <el-radio :label="1">上架</el-radio>
               <el-radio :label="0">下架</el-radio>
@@ -234,9 +243,10 @@ export default {
     //
     confirm() {
       this.$validate("form").then(() => {
+        // area: this.form.title,
+        //   year: this.form.year,
         const params = {
           id: this.form.id,
-          area: this.form.title,
           auth: this.form.auth,
           image: this.form.image,
           name: this.form.name,
@@ -244,8 +254,8 @@ export default {
           orgDate: this.form.orgDate,
           sequence: this.form.sequence,
           status: this.form.status,
-          year: this.form.year,
-          identifier: this.form.identifier
+          identifier: this.form.identifier,
+          param: this.form.param
         };
 
         if (!this.form.id) {

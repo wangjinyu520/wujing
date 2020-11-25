@@ -1,26 +1,35 @@
 <template>
   <div style="height: 100%">
     <div class="lay-top">
-      <el-scrollbar ref="scroll-bar" v-if="show" style="width: calc(100% - 160px)">
-      <div class="menu-items">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" :router="true">
-          <el-menu-item
-            v-for="item in list"
-            :key="item.path"
-            :index="item.one + '/' + item.path"
-            v-show="!item.hidden"
-            >{{ item.name }}</el-menu-item
+      <el-scrollbar
+        ref="scroll-bar"
+        v-if="show"
+        style="width: calc(100% - 160px)"
+      >
+        <div class="menu-items">
+          <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            :router="true"
           >
-                 <!-- v-show="!item.hidden" -->
-        </el-menu>
-        <div style="width: 100px"></div>
-      </div>
+            <el-menu-item
+              v-for="item in list"
+              :key="item.path"
+              :index="item.one + '/' + item.path"
+              v-show="!item.hidden"
+              >{{ item.name }}</el-menu-item
+            >
+            <!-- v-show="!item.hidden" -->
+          </el-menu>
+          <div style="width: 100px"></div>
+        </div>
       </el-scrollbar>
 
       <el-dropdown trigger="click" @command="change">
         <div class="user-info">
           <div>
-            <img :src="userInfo.image" alt="" />
+            <!-- <img :src="userInfo.image" alt="" /> -->
             <span>{{ userInfo.name }}</span>
             <i class="el-icon-caret-bottom"></i>
           </div>
@@ -34,7 +43,13 @@
 
     <!-- form -->
     <Dialog ref="dialog" :type="formType" title="个人信息" width="380px">
-      <el-form slot="main" ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form
+        slot="main"
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
         <el-form-item label="头像：" prop="image">
           <Upload :defaultImage.sync="form.image" />
         </el-form-item>
@@ -60,60 +75,60 @@
 </template>
 
 <script>
-import { removeCookie } from '@/js-cookie'
-import { memberLoginOut, getUserInfo } from '@/axios/member'
+import { removeCookie } from "@/js-cookie";
+import { memberLoginOut, getUserInfo } from "@/axios/member";
 // memberUpdate
 
 export default {
   data() {
     return {
-      formType: 'update',
-      title: '',
-      name: '',
+      formType: "update",
+      title: "",
+      name: "",
       list: [],
       form: {},
       rules: {
         // image: [{ required: true, message: '请上传', trigger: 'blur' }],
-        name: [{ required: true, message: '请填写', trigger: 'blur' }],
-        username: [{ required: true, message: '请填写', trigger: 'blur' }],
+        name: [{ required: true, message: "请填写", trigger: "blur" }],
+        username: [{ required: true, message: "请填写", trigger: "blur" }]
       },
       show: false,
       scrollLeft: 0
-    }
+    };
   },
   computed: {
     activeIndex() {
-      let path = this.$route.path
-      path = path.split('/').filter(item => {
-        return item
-      })
-      path = '/' + path[0] + '/' + path[1]
-      return path
+      let path = this.$route.path;
+      path = path.split("/").filter(item => {
+        return item;
+      });
+      path = "/" + path[0] + "/" + path[1];
+      return path;
     },
     userInfo() {
-      return this.$store.state.userInfo
+      return this.$store.state.userInfo;
     },
     routerTree() {
-      return this.$store.state.routerTree
+      return this.$store.state.routerTree;
     }
   },
   created() {},
   watch: {
     show(val) {
-      if(val) {
+      if (val) {
         this.$nextTick(() => {
-          let dom = this.$refs['scroll-bar'].wrap
-          dom.addEventListener('scroll', (e) => {
-            this.scrollLeft = e.target.scrollLeft
-          })
-          dom.scrollLeft = this.scrollLeft
-        })
+          let dom = this.$refs["scroll-bar"].wrap;
+          dom.addEventListener("scroll", e => {
+            this.scrollLeft = e.target.scrollLeft;
+          });
+          dom.scrollLeft = this.scrollLeft;
+        });
       }
     },
     routerTree: {
       handler(val, old) {
         if (!old || old.length == 0) {
-          this.setTop()
+          this.setTop();
         }
       }
     },
@@ -121,69 +136,72 @@ export default {
       immediate: true,
       handler(val, old) {
         //处理菜单滚动后，切换到其他模块 重置scrollLeft
-        if(!old || val.matched[0].path != old.matched[0].path) {
-          this.scrollLeft = 0
+        if (!old || val.matched[0].path != old.matched[0].path) {
+          this.scrollLeft = 0;
         }
         if (this.routerTree) {
-          this.setTop()
+          this.setTop();
         }
       }
     }
   },
   methods: {
     setTop() {
-      this.show = false
-      this.title = this.$route.name
+      this.show = false;
+      this.title = this.$route.name;
 
       let path =
-        '/' +
-        this.$route.path.split('/').filter(item => {
-          return item
-        })[0]
-      let routerTree = this.$store.state.routerTree
+        "/" +
+        this.$route.path.split("/").filter(item => {
+          return item;
+        })[0];
+      let routerTree = this.$store.state.routerTree;
       for (let one of routerTree) {
         if (path == one.path) {
           this.list = one.children.map(item => {
-            item.one = one.path
-            if (item.meta && item.meta.alwaysHidden && !item.meta.initHidden ) {
-              item.hidden = true
-              if (item.meta.alwaysIgnore && item.meta.alwaysIgnore.includes(this.$route.path)) {
-                item.hidden = false
+            item.one = one.path;
+            if (item.meta && item.meta.alwaysHidden && !item.meta.initHidden) {
+              item.hidden = true;
+              if (
+                item.meta.alwaysIgnore &&
+                item.meta.alwaysIgnore.includes(this.$route.path)
+              ) {
+                item.hidden = false;
               }
             }
-            return item
-          })
-          break
+            return item;
+          });
+          break;
         }
       }
       this.$nextTick(() => {
-        this.show = true
-      })
+        this.show = true;
+      });
     },
     change(value) {
-      if (value == 'logout') {
-        this.logout()
-      } else if (value == 'userInfo') {
-        this.form = { ...this.$store.state.userInfo }
-        this.$refs.dialog.open()
+      if (value == "logout") {
+        this.logout();
+      } else if (value == "userInfo") {
+        this.form = { ...this.$store.state.userInfo };
+        this.$refs.dialog.open();
       }
     },
     getUserInfo() {
       getUserInfo().then(res => {
-        this.name = res.result.name
-        this.$store.commit('SETUSERINFO', res.result)
-      })
+        this.name = res.result.name;
+        this.$store.commit("SETUSERINFO", res.result);
+      });
     },
     logout() {
       memberLoginOut().then(res => {
-        removeCookie('jh-token')
+        removeCookie("jh-token");
         this.$router.push({
-          path: '/login'
-        })
-      })
+          path: "/login"
+        });
+      });
     },
     confirm() {
-      this.$validate('form').then(() => {
+      this.$validate("form").then(() => {
         // memberUpdate(this.form).then(() => {
         //   this.Notify('更新成功！')
         //   this.$refs.dialog.close()
@@ -191,10 +209,10 @@ export default {
         //     this.$store.commit('Set_UserInfo', res.result)
         //   })
         // })
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -206,7 +224,8 @@ export default {
   justify-content: space-between;
   padding-right: 20px;
   background: #3388ff;
-  .el-scrollbar__thumb,.el-scrollbar__thumb:hover {
+  .el-scrollbar__thumb,
+  .el-scrollbar__thumb:hover {
     background-color: #fff;
   }
   .el-scrollbar__bar.is-horizontal {

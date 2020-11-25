@@ -28,7 +28,7 @@ let Routes = [
       },
       {
         path: "bgAdmin",
-        name: "读书照管理",
+        name: "活动剪影",
         hidden: false,
         meta: {
           // code: 'advertisement:index',
